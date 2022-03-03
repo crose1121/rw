@@ -1,0 +1,15 @@
+@charset "ISO-8859-1";
+
+.homelink{
+	margin-top: 15px;
+	margin-left: 15px;
+	float: right;
+}
+
+.postlink{
+	float: right;
+}
+
+.likebutton {
+	color: red;
+}
