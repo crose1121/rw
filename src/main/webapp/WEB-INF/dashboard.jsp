@@ -18,56 +18,103 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
       crossorigin="anonymous">
 <link rel="stylesheet" href="/style.css" />
-<style>
-	background-color: grey;
-</style>
+
 <title>Dashboard</title>
 </head>
 <body>
+	<div>
+	<div>
+		<h1 class="infotext" style="font-family: Copperplate, Papyrus, fantasy; font-size: 100px; margin-top: 10px; text-align: center;">Read it and Weep</h1>
+		<hr class="infotext"/>
+	</div>
 	<div class="container" style="width: 50%">
 		<a class="homelink btn btn-secondary" href="/logout">Logout</a>
-		<h1 class="text-secondary">Welcome, ${loggedInUser.username}</h1>
-		<hr />
-		<h3 class="text-secondary">Here's our most recent stories.</h3>
-			<table class="table table-secondary container">
+		<a href="/story/new" class="homelink btn btn-info">New Story</a>
+		<h1 class="textlight">Welcome <span style="color: rgb(91, 192, 222);">${loggedInUser.username}</span> </h1>
+		<hr class="textlight"/>
+		<h3 class="textlight">Recent Stories</h3>
+			<table class="table container">
 				<thead>
-					<tr>
+					<tr class="tablelight">
 						<th>Told By</th>
 						<th>Title</th>
+						<th>Tagged Users</th>
 						<th>Related Categories</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="story" items="${allStories}">
-						<tr>
-							<td>${story.user.username}</td>
-							<td ><a href="/story/${story.id}">${story.title}</a></td>
+						<tr class="tablelight">
+							<td><a href="/user/${story.user.id}"  class="" style="display: inline-block; color: black;">${story.user.username}</a></td>
+							<td ><a href="/story/${story.id}" style="color:black">${story.title}</a></td>
 							<td>
-								
-							<!--	// use for loop? //  -->
-								
-								<c:forEach var="category" items="${story.getCategories()}" varStatus="status">
-										<c:if test="${status.last}">
-										<a href="/stories/category/${category.id}">${category.name}</a>
+								<c:forEach var="taggedUser" items="${story.getUsersTagged()}" varStatus="status">
+									<c:if test="${status.last}">
+									<a href="/user/${taggedUser.id}"  class="" style="display: inline-block; color: black;">${taggedUser.username}</a>
+									
 									</c:if>
 									<c:if test="${!status.last}">
-										<a href="/stories/category/${category.id}">${category.name}</a>, 
+									<a href="/user/${taggedUser.id}"  class="" style="display: inline-block; color: black;">${taggedUser.username}</a>,&nbsp;
+									</c:if>
+								</c:forEach>
+							</td>
+							<td>
+								<c:forEach var="category" items="${story.getCategories()}" varStatus="status">
+										<c:if test="${status.last}">
+										<a href="/stories/category/${category.id}"  style="color:black">${category.name}</a>
+									</c:if>
+									<c:if test="${!status.last}">
+										<a href="/stories/category/${category.id}"  style="color:black">${category.name}</a>, 
 									</c:if>
 									 
 								</c:forEach>
+							</td>
+							<td>
+								<c:if test="${loggedInUser==story.user}">
+									<a href="/story/delete/${story.id}" style="color: red; float: right;">Delete</a>										
+								</c:if>
+								<a href="/story/${story.id}" style="color: black; float: left;">View Story</a>
+							
 							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-		<a href="/story/new">Tell a story</a>
-		<hr />
-		<h3 class="text-secondary">Browse by Category</h3>
+		
+		<br />
+		<br />
+		<h3 class="textlight">Browse by Category</h3>
 
-		<hr />
+		<hr  class="textlight"/>
 		<c:forEach var="category" items="${allCategories}">
-			|| <a href="/stories/category/${category.id}">${category.name}</a>
+			<a href="/stories/category/${category.id}"  class="a:hover categorytag infotext">${category.name}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		</c:forEach>
+		<br /><br /><br /><br />
+		<div class="row">
+			<div class="col-6">
+				<h3 class="textlight">Following <span style="color: rgb(91, 192, 222)">(${currentlyFollowing.size()})</span></h3>
+					<hr class="textlight"/>	
+						<c:forEach var="user" items="${currentlyFollowing}">
+							<a href="/user/${user.id}"  class="categorytag infotext" style="display: inline-block">${user.username}</a>&nbsp;&nbsp;&nbsp;
+						</c:forEach>
+			</div>
+			<div class="col">
+				<h3 class="textlight">Explore User Stories</h3>
+					<hr class="textlight"/>
+					<c:forEach var="user" items="${allUsers}">
+						<c:if test="${user.id != loggedInUser.id}">
+						<c:if test="${!currentlyFollowing.contains(user)}">
+							<a href="/user/${user.id}"  class="a:hover infotext categorytag">${user.username}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</c:if>
+						</c:if>
+					</c:forEach>
+		
+			</div>
+		</div>
+		<br /><br /><br /><br />
+		
+	</div>
 	</div>
 </body>
 </html>

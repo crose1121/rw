@@ -18,7 +18,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
       crossorigin="anonymous">
 <link rel="stylesheet" href="/style.css" />
-<title>Stories by Category</title>
+<title>Stories by User</title>
 </head>
 <body>
 <div>
@@ -28,24 +28,36 @@
 	</div>
 		<div class="container" style="width: 50%">
 			<a class="homelink btn btn-secondary" href="/logout">Logout</a>
-			<a class="homelink btn btn-info" href="/home">Home</a>
-			<h1 class="textlight">Stories By <span style="color: rgb(91, 192, 222);">Category</span></h1>
+			
+			<c:if test="${loggedInUser != selectedUser}">
+				
+			<c:if test="${loggedInUser.following.contains(selectedUser)}">
+				<a class="homelink btn btn-danger" href="/unfollow/${selectedUser.id}">Unfollow</a>
+			</c:if>
+			
+			<c:if test="${!loggedInUser.following.contains(selectedUser)}">
+				<a class="homelink btn btn-info" href="/follow/${selectedUser.id}">Follow</a>
+			</c:if>
+				
+			</c:if>
+			
+			
+			
+			<a class="homelink btn btn-light" href="/home">Home</a>
+			<h1 class="textlight">Stories By <span style="color: rgb(91, 192, 222);">${selectedUser.username}</span></h1>
 			<hr class="textlight"/>
-			<h2 class="infotext" style="font-size: 50px;">${currentCategory.name}</h2>
 			<br />
 			<table class="table container">
 				<thead>
 					<tr class="tablelight">
-						<th>Told By</th>
 						<th>Title</th>
 						<th>Tagged Users</th>
-						<th>Other Related Categories</th>
+						<th>Related Categories</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="story" items="${categoryStories}">
+					<c:forEach var="story" items="${selectedUser.stories}">
 						<tr class="tablelight">
-							<td><a href="/user/${story.user.id}"  class="" style="display: inline-block; color: black;">${story.user.username}</a></td>
 							<td ><a href="/story/${story.id}" style="color: black">${story.title}</a></td>
 								<td>
 								<c:forEach var="taggedUser" items="${story.getUsersTagged()}" varStatus="status">
@@ -59,14 +71,11 @@
 							</td>
 							<td>
 								<c:forEach var="category" items="${story.categories}" varStatus="status">
-								<!-- if the story.categories contains the current category, then dont show it -->
-									<c:if test="${currentCategory!=category}">
 									<c:if test="${status.last}">
 										<a href="/stories/category/${category.id}" style="color: black">${category.name}</a>
 									</c:if>
 									<c:if test="${!status.last}">
 										<a href="/stories/category/${category.id}" style="color: black">${category.name}</a>, 
-									</c:if>
 									</c:if>
 								
 								</c:forEach>
@@ -75,7 +84,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-		<br />
+			<br />
 		<br />
 		<h3 class="textlight">Browse by Category</h3>
 
@@ -93,12 +102,12 @@
 						</c:forEach>
 			</div>
 			<div class="col">
-				<h3 class="textlight">Follow More Users</h3>
+				<h3 class="textlight">Explore User Stories</h3>
 					<hr class="textlight"/>
 					<c:forEach var="user" items="${allUsers}">
 						<c:if test="${user.id != loggedInUser.id}">
 						<c:if test="${!currentlyFollowing.contains(user)}">
-							<a href="/follow/${user.id}"  class="a:hover infotext categorytag">${user.username}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="/user/${user.id}"  class="a:hover infotext categorytag">${user.username}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</c:if>
 						</c:if>
 					</c:forEach>

@@ -108,6 +108,12 @@ public class Comment {
 	public void setStory(Story story) {
 		this.story = story;
 	}
+	public List<User> getCommentLikes() {
+		return commentLikes;
+	}
+	public void setCommentLikes(List<User> commentLikes) {
+		this.commentLikes = commentLikes;
+	}
     
     
 }

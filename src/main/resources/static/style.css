@@ -1,5 +1,18 @@
 @charset "ISO-8859-1";
 
+h1{
+	font-size: 65px;
+}
+
+h4{
+	font-size: 40px;
+}
+
+p{
+	font-size: 25px;
+	
+}
+
 .homelink{
 	margin-top: 15px;
 	margin-left: 15px;
@@ -11,5 +24,65 @@
 }
 
 .likebutton {
+	color: 	rgb(91, 192, 222);
+	
+}
+
+.deletebutton {
 	color: red;
+}
+
+.categorytag{
+	font-size: 25px;
+}
+
+a{
+	background: none;
+}
+
+table {
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 200px;
+}
+
+th,
+td {
+  border: 1px solid black;
+  width: 100px;
+  overflow: hidden;
+}
+
+*{
+	background: rgb(51,51,51);
+	
+}
+
+.textlight{
+	color: rgb(235,235,235);
+}
+
+
+.tablelight{
+	background: rgb(204,204,204);
+}
+
+.submit{
+	background: rgb(235,235,235);
+}
+
+.infotext{
+	color: 	rgb(91, 192, 222);
+}
+
+.liketext{
+	color: 	rgb(91, 192, 222);
+	display: inline-block;
+	text-align: right;
+}
+
+.deletecomment{
+	color: red;
+	display: inline-block;
+	text-align: left;
 }

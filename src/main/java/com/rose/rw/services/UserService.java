@@ -68,6 +68,11 @@ public class UserService {
 		}
 	}
 	
+	public List<User> findAllUsers() {
+		return userRepo.findAll();
+	}
+	
+	
 	public User findOneUser(Long id) {
 		return userRepo.findById(id).orElse(null);
 	}
@@ -92,6 +97,14 @@ public class UserService {
 		return this.storyRepo.save(story);
 	}
 	
+	public User updateUser(User user) {
+		return userRepo.save(user);
+	}
+	
+	public Comment updateComment(Comment comment) {
+		return commentRepo.save(comment);
+	}
+	
 	public List<Category> findAllCategories() {
 		return categoryRepo.findAll();
 	}
@@ -104,4 +117,17 @@ public class UserService {
 		return categoryRepo.findById(id).orElse(null);
 	}
 	
+	public Comment findOneComment(Long id) {
+		return commentRepo.findById(id).orElse(null);
+	}
+	
+	// delete comments
+	public void deleteComment(Long id) {
+		commentRepo.deleteById(id);
+	}
+	
+	// delete a story
+	public void deleteStory(Long id) {
+		storyRepo.deleteById(id);
+	}
 }

@@ -85,9 +85,37 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "comment_id")
     )
-    private List<User> commentsLiked;
+    private List<Comment> commentsLiked;
     
-    //another many to many, table name friendships, need
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "stories_tagged_users", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "story_id")
+    )
+    private List<Story> storiesTagged;
+    
+    
+    
+    //following
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    		name="follows",
+    		joinColumns = @JoinColumn(name = "follower_id"),
+    		inverseJoinColumns = @JoinColumn(name="following_id")
+    	)
+    private List<User> following;
+    
+    //followers
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    		name="follows",
+    		joinColumns = @JoinColumn(name = "following_id"),
+    		inverseJoinColumns = @JoinColumn(name="follower_id")
+    	)
+    private List<User> followers;
+    
+    
     
     public User() {
     	
@@ -161,6 +189,32 @@ public class User {
 	public void setStoriesLiked(List<Story> storiesLiked) {
 		this.storiesLiked = storiesLiked;
 	}
+	public List<Comment> getCommentsLiked() {
+		return commentsLiked;
+	}
+	public void setCommentsLiked(List<Comment> commentsLiked) {
+		this.commentsLiked = commentsLiked;
+	}
+	public List<User> getFollowing() {
+		return following;
+	}
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
+	public List<User> getFollowers() {
+		return followers;
+	}
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+	public List<Story> getStoriesTagged() {
+		return storiesTagged;
+	}
+	public void setStoriesTagged(List<Story> storiesTagged) {
+		this.storiesTagged = storiesTagged;
+	}
+	
+	
 	
 	
 }

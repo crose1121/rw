@@ -47,7 +47,7 @@ public class Story{
     }
     
     @NotEmpty(message="Your story needs a title.")
-    @Size(max=50, message="Story title cannot be greater than 2 characters")
+    @Size(max=50, message="Story title cannot be greater than 50 characters")
     private String title;
     
     @Size(min=200, message="Story must be at least 200 characters")
@@ -77,6 +77,14 @@ public class Story{
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "stories_tagged_users", 
+        joinColumns = @JoinColumn(name = "story_id"), 
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> usersTagged;
     
     //constructors
     public Story () {
@@ -142,6 +150,12 @@ public class Story{
 	}
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	public List<User> getUsersTagged() {
+		return usersTagged;
+	}
+	public void setUsersTagged(List<User> usersTagged) {
+		this.usersTagged = usersTagged;
 	}
 	
     
